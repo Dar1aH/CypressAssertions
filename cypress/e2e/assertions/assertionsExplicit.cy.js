@@ -1,4 +1,4 @@
-describe('Explicit assertions', () => {
+describe('Explicit Assertions', () => {
   it('How to perform Explicit checks', () => {
     cy.visit('/commands/assertions')
     
