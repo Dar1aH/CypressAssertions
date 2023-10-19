@@ -1,5 +1,5 @@
 describe('Explicit assertions', () => {
-  it('How to perform explicit checks', () => {
+  it('How to perform Explicit checks', () => {
     cy.visit('/commands/assertions')
     
     cy.get('.table.table-bordered.assertion-table tr').eq(3).then( tableRaw => {
