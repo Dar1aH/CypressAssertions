@@ -4,11 +4,12 @@ describe('Implicit assertions', () => {
     
     cy.get('.table.table-bordered.assertion-table tr')
     .eq(3)
-    .should('have.attr', 'class')
+    .should('have.attr', 'class') // checks the presence of a 'class' attribute - have.attr
+    // instead can be title, placeholder etc. 
 
     cy.get('.table.table-bordered.assertion-table tr')
     .eq(3)
-    .should('have.class', 'success')
+    .should('have.class', 'success') // checks the value of the class - have.class 
 
     // cy.get('.table.table-bordered.assertion-table tr').then( tableRaws => {
     //   console.log(tableRaws)
@@ -20,6 +21,7 @@ describe('Implicit assertions', () => {
     // })
     
     cy.get('.table.table-bordered.assertion-table tr td').eq(3).should('have.text', "Column content");
+    // checks if the element has text 
     cy.get('.table.table-bordered.assertion-table tr td').eq(3).should('contain', "Column ");
     cy.get('.table.table-bordered.assertion-table tr td').eq(3).should('have.html', "Column content");
     cy.get('.table.table-bordered.assertion-table tr td').eq(3).should('include.text', "Column ");
