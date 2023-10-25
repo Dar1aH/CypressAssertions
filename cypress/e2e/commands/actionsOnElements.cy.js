@@ -1,67 +1,58 @@
-it('Cypress commands for continue chain of quering elements', () => {
-    cy.visit('/commands/actions');
-    
-    cy.get('#email1')
-    .type('qweqwe')
-    .should('have.value', 'qweqwe')
-    .clear()
-    .type('S{leftArrow}E{leftArrow}T{rightArrow}{rightArrow}{rightArrow}T', {delay: 1})
-    .should('have.value', 'TEST')
-    .type('{selectAll}{backspace}')
-    .should('have.value', '');
+/// <reference types="cypress"/>
 
-    cy.get('.action-disabled').type('qweqwe', {force: true})
+describe('Cypress commands for continue chain of quering elements', () => {
+   it('querying', ()=>{
+    cy.visit('http://localhost:8080/commands/actions');
+    cy.get('#email1').type('email@gmail.com'). should('have.value', 'email@gmail.com');
+    cy.get('#email1').clear().type('S{leftArrow}E{leftArrow}T{rightArrow}{rightArrow}{rightArrow}T', {delay:500});
+    cy.get('.form-control.action-disabled').type('Hello', {force:true, delay:500});
+    cy.get('#password1').focus().should('have.class', 'focus').prev().should('have.attr', 'style', 'color: orange;');
+    cy.get('#fullName1').focus().blur().should('have.class', 'error')
+      .prev().should('have.attr', 'style', 'color: red;');
+    cy.get('#couponCode1').type('hello')
+      .parents('form').submit().next()
+      .should('have.text', 'Your form has been submitted!');
 
-    cy.get('.action-focus')
-    .focus()
-    .should('have.class', 'focus')
-    .prev()
-    .should('have.attr', 'style', 'color: orange;');
+   cy.get('#action-canvas').click();  
+   cy.get('#action-canvas').click('bottom');  
+   cy.get('#action-canvas').click('top');  
+   cy.get('#action-canvas').click('bottomLeft');  
+   cy.get('#action-canvas').click('bottomRight');
+   cy.get('#action-canvas').click('topLeft');  
+   cy.get('#action-canvas').click('topRight');   
 
-    cy.get('#fullName1')
-    .focus()
-    .blur()
-    .should('have.class', 'error')
-    .prev()
-    .should('have.attr', 'style', 'color: red;');
+   cy.get('#action-canvas').click(10, 10);
+   cy.get('#action-canvas').click(20, 20);
+   cy.get('#action-canvas').click(30, 30);
 
-    cy.get('.action-form')
-    .siblings()
-    .should('have.length', 0)
+   cy.get('.action-labels [data-toggle="popover"]').click({multiple:true});
 
-    cy.get('.action-form')
-    .find('#couponCode1')
-    .type('test Text')
-    .closest('form')
-    .submit()
-    .siblings()
-    .should('contain', 'Your form has been submitted!');
+   cy.get('[data-toggle="popover"][data-placement="left"]').click({force:true});
+   
+  // if we want to check multiple checkboxes we have to use click 
+  
+  cy.get('.action-checkboxes [value="checkbox1"]').check();
+  cy.get('.action-checkboxes [value="checkbox1"]').check();
 
-    cy.get('#action-canvas')
-    // .click()
-    // .click('topLeft')
-    // .click('topRight')
-    // .click('bottomLeft')
-    // .click('bottomRight')
-    .click(10, 10)
-    .click(100, 100)
+  cy.get('.form-control.action-select')
+  .select('apples')
+  .should('have.value', 'fr-apples');
 
-    cy.get('.btn-primary.btn-lg').click({ force:true });
+  cy.get('.form-control.action-select')
+  .select('fr-bananas')
+  .should('have.value', 'fr-bananas');
+  cy.get('.btn.btn-danger')
 
-    cy.get('span[data-toggle="popover"]').click({ multiple: true });
+  cy.get('#scroll-horizontal button').scrollIntoView();
+  cy.get('#scroll-vertical button').scrollIntoView();
+  cy.get('#scroll-both button').scrollIntoView();
 
-    cy.get('.action-checkboxes [value="checkbox1"]').check();
-    cy.get('.action-checkboxes [value="checkbox1"]').check();
+  cy.get('#scrollable-vertical').scrollTo('right');
 
-    cy.get('.form-control.action-select')
-    .select('apples')
-    .should('have.value', 'fr-apples')
-
-    cy.get('#scrollable-vertical').scrollTo(0, 500)
-
-    cy.get('.trigger-input-range')
-    .invoke('val', 66)
-    .trigger('change')
+  cy.get('.trigger-input-range').invoke('val', 99).trigger('change')
     .siblings('p')
-    .should('contain', '66');
+    .should('contain', '99'); 
+   })
+    
+    
   })
